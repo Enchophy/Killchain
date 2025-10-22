@@ -1,0 +1,105 @@
+{
+  "project_metadata": {
+    "name": "Project Name",
+    "version": "0.1.0",
+    "description": "Brief project description",
+    "created": "2025-01-01T00:00:00Z",
+    "last_updated": "2025-01-01T00:00:00Z",
+    "authors": [],
+    "license": "MIT"
+  },
+
+  "technology_stack": {
+    "languages": {
+      "primary": {
+        "name": "Python",
+        "version": "3.11+"
+      },
+      "secondary": []
+    },
+    "frameworks": [],
+    "libraries": {}
+  },
+
+  "dependencies": {
+    "runtime": {},
+    "development": {},
+    "testing": {}
+  },
+
+  "file_structure": {
+    "src": {
+      "description": "Source code directory",
+      "components": {}
+    },
+    "tests": {
+      "description": "Test files directory",
+      "components": {}
+    },
+    "docs": {
+      "description": "Documentation directory",
+      "components": {}
+    },
+    "config": {
+      "description": "Configuration files",
+      "components": {}
+    }
+  },
+
+  "components": {
+    "kc001": {
+      "name": "Component Name",
+      "description": "Component description",
+      "status": "todo",
+      "files": [],
+      "dependencies": [],
+      "complexity": "simple",
+      "estimated_effort_hours": 0
+    }
+  },
+
+  "architecture": {
+    "pattern": "Describe architectural pattern",
+    "layers": [],
+    "data_flow": "Describe data flow"
+  },
+
+  "quality_metrics": {
+    "min_test_coverage": 80,
+    "type_checking": true,
+    "linting": true,
+    "static_analysis": true
+  },
+
+  "build_config": {
+    "commands": {
+      "install": "pip install -r requirements.txt",
+      "test": "pytest",
+      "lint": "pylint src/",
+      "format": "black src/",
+      "type_check": "mypy src/"
+    },
+    "output_directory": "dist/",
+    "entry_point": "src/main.py"
+  },
+
+  "deployment": {
+    "target": "Describe deployment target",
+    "platform": "Describe platform",
+    "ci_cd": null,
+    "environment_variables": []
+  },
+
+  "documentation": {
+    "readme": "README.md",
+    "architecture": "docs/architecture.md",
+    "api_reference": "docs/api.md",
+    "user_guide": "docs/user_guide.md"
+  },
+
+  "metadata": {
+    "killchain_version": "1.0.0",
+    "manifest_version": "1.0",
+    "generated_by": "killchain-plan"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "project_name": "Project Name",
+  "version": "0.1.0",
+  "started_at": "2025-01-01T00:00:00Z",
+  "last_updated": "2025-01-01T00:00:00Z",
+  "resumed_at": null,
+  "resume_count": 0,
+
+  "current_component": "kc001",
+  "current_phase": "foundation",
+
+  "completed_components": [],
+
+  "active_tasks": {},
+
+  "blockers": [],
+
+  "decisions_made": [],
+
+  "questions_for_user": [],
+
+  "milestones": [
+    {
+      "name": "Foundation Complete",
+      "components": ["kc001", "kc002", "kc003"],
+      "status": "pending",
+      "completed_at": null
+    }
+  ],
+
+  "auto_approve_milestones": false,
+  "auto_approve_set_at": null,
+
+  "active_checkpoint": null,
+  "checkpoint_cleared_at": null,
+
+  "budget": {
+    "max_per_component": 50,
+    "currency": "USD",
+    "total_spent": 0,
+    "component_spending": {}
+  },
+
+  "performance_metrics": {
+    "components_per_day": [],
+    "average_time_per_component_hours": null,
+    "total_duration_hours": null
+  },
+
+  "git_info": {
+    "repository_initialized": false,
+    "commit_count": 0,
+    "current_branch": null
+  },
+
+  "metadata": {
+    "killchain_version": "1.0.0",
+    "created_by": "killchain-plan",
+    "schema_version": "1.0"
+  }
+}
