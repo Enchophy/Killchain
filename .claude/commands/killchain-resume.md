@@ -102,7 +102,14 @@ If blockers exist:
 ### 5. Answer Pending Questions
 
 If questions exist:
-1. Present each question with options
+1. Present each question with options using the standard format:
+```
+# 1 - <question title>
+- A: <option description>
+- B: <option description>
+- C: <option description>
+- Other? (please specify)
+```
 2. Record user's decision in decisions_made
 3. Update relevant component files with decisions
 4. Clear questions from context

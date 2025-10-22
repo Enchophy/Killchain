@@ -337,11 +337,13 @@ Ready for QA review.
 
 **Issue:** The spec says "<ambiguous requirement>" but it's unclear whether this means X or Y.
 
-**Options:**
-1. Interpret as X: <implications>
-2. Interpret as Y: <implications>
+# 1 - <question title>
+- A: <option description with implications>
+- B: <option description with implications>
+- C: <option description with implications> (if applicable)
+- Other? (please specify)
 
-**Recommendation:** <your suggestion>
+**Recommendation:** <your suggested option letter>
 
 **Requested Guidance:** <specific question for orchestrator/user>
 ```
