@@ -23,8 +23,8 @@ Component ID: `kc015`
 ### 2. Verify Component Exists
 
 ```bash
-# Check for component file (any status)
-ls .claude/killchain/kc015_*_*.md
+# Check for component file
+ls .claude/killchain/kc015_*.md
 ```
 
 If not found:
@@ -116,15 +116,7 @@ git revert <commit_hash> --no-edit
 This creates a new commit that undoes the changes.
 
 **Update Component Status:**
-```bash
-# Rename component file
-# From: kc015_c_name.md
-# To: kc015_t_name.md (or kc015_a_name.md if partially complete)
-
-current_file=$(ls .claude/killchain/kc015_*_*.md)
-new_file=$(echo $current_file | sed 's/_c_/_t_/')
-mv "$current_file" "$new_file"
-```
+Update `killchain_context.json` to mark component as "todo" or "rollback"
 
 **Update Component File:**
 Add rollback notice to file:
@@ -214,8 +206,8 @@ Show user:
 ✓ Created rollback commits
 
 ### Current State
-- Component file: .claude/killchain/kc015_t_<name>.md
-- Status: Todo (ready for re-implementation)
+- Component file: .claude/killchain/kc015_<name>.md
+- Status: Todo (tracked in killchain_context.json)
 - Git history: Contains revert commit
 
 ### Next Steps

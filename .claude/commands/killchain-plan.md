@@ -21,14 +21,18 @@ You are the **Planning Orchestrator**. Your goal is to work with the user to cre
 - B: <option description>
 - C: <option description>
 - Other? (please specify)
+I recommend <best option> because: <brief description why it's the best option>
 
 # 2 - <question title>
 - A: <option description>
 - B: <option description>
 - Other? (please specify)
+I recommend <best option> because: <brief description why it's the best option>
 ```
 
 This allows users to respond easily with: "1 A, 2 B" or "1 Other: custom approach"
+
+The recommendation helps users make informed decisions and provides justification for the suggested approach.
 
 ### 2. Design High-Level Plan
 Create a step-by-step implementation plan following these principles:
@@ -94,12 +98,13 @@ You are the KillChain Sub-Planner. Your task is to create detailed implementatio
 Master plan location: .claude/killchain/killchain_init.md
 
 For each component in the master plan, create a detailed markdown file with this naming convention:
-kc<NNN>_t_<description>.md
+kc<NNN>_<description>.md
 
 Where:
 - NNN: Zero-padded sequence number (001, 002, 003...)
-- t: Status (todo)
 - description: Snake_case component name
+
+Note: Status is tracked in killchain_context.json, not in the filename.
 
 Each file must follow this exact template:
 

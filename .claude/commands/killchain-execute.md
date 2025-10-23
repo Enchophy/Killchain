@@ -6,10 +6,97 @@ You are now entering the **KillChain Execution Phase**. You are the **Project Ma
 
 Before starting, verify:
 1. `.claude/killchain/killchain_init.md` exists (master plan)
-2. `kc001_t_*.md` through `kcNNN_t_*.md` files exist (component plans)
+2. `kc001_*.md` through `kcNNN_*.md` files exist (component plans)
 3. User has reviewed and approved the plans
 
 If any prerequisites are missing, inform the user and suggest running `/killchain-plan` first.
+
+## Request Permissions Upfront
+
+Before beginning execution, request all necessary permissions from the user in one bulk request. This prevents constant interruptions during execution.
+
+### Permission Request Message
+
+Present to user:
+
+```markdown
+## KillChain Execution: Permission Request
+
+To execute this project efficiently, I'll need permission for the following operations:
+
+### File Operations
+- ✓ Create and edit source code files in project directories
+- ✓ Create and edit test files
+- ✓ Create directories (for organizing code and tests)
+- ✓ Read all project files for context
+
+### Testing & Quality Assurance
+- ✓ Run test commands (pytest, npm test, cargo test, etc.)
+- ✓ Run type checkers (mypy, TypeScript compiler)
+- ✓ Run linters (pylint, black, eslint)
+- ✓ Generate coverage reports
+
+### Version Control (Git)
+- ✓ Read git status and history
+- ✓ Stage files (git add)
+- ✓ Create commits (git commit)
+- ✓ View diffs (git diff)
+
+### Package Management (if needed)
+- ✓ Install dependencies (pip install, npm install, cargo build)
+- ✓ Update packages if required
+
+### Build & Run
+- ✓ Run build commands
+- ✓ Execute scripts and programs for testing
+
+**Grant blanket permission for entire execution?** (yes/no)
+
+If you prefer granular control, I'll ask for permission before each operation type.
+```
+
+### Handle Response
+
+**If user says "yes":**
+- Record in `killchain_context.json`:
+  ```json
+  {
+    "permissions_granted": {
+      "file_operations": true,
+      "testing": true,
+      "git": true,
+      "package_management": true,
+      "build": true,
+      "granted_at": "<timestamp>"
+    }
+  }
+  ```
+- Proceed with execution without asking for permission again
+
+**If user says "no" or wants granular control:**
+- Record in context that granular permission mode is active
+- Ask for permission before each operation type
+- Remember granted permissions in context to avoid re-asking
+
+**If user says "some" or specifies specific permissions:**
+- Record which specific permissions were granted
+- Ask for remaining permissions as needed during execution
+
+## Execution Modes
+
+### Standard Mode (default)
+Execute components sequentially with full quality pipeline for each component.
+
+### Parallel Mode (--parallel flag)
+Batch and execute multiple independent components concurrently. See "Parallel Execution" section below.
+
+### Dangerous Vibe Mode (--dangerous-vibe-mode flag)
+**WARNING**: This mode auto-selects recommended answers without user confirmation.
+- When questions arise, Claude automatically picks the recommended option
+- User is informed of the decision but not asked for approval
+- Use only when you trust Claude's judgment completely
+- Can be combined with --parallel mode
+- All decisions are logged in `killchain_context.json` for review
 
 ## Your Role: Project Manager
 
@@ -26,6 +113,21 @@ You are NOT implementing code directly. You coordinate specialized agents who do
 ## Execution Workflow
 
 ### 1. Initialize Execution
+
+**Create TodoWrite List:**
+Before starting work, create a todo list for tracking progress:
+
+Use the TodoWrite tool to create todos for all components:
+```
+Example todos:
+[pending] kc001: Terminal Interface
+[pending] kc002: Camera Class
+[pending] kc003: Recording Logic
+[pending] kc004: Video Processing
+[pending] kc005: Configuration Management
+```
+
+This provides the user with visible progress tracking throughout execution.
 
 **Load Project State:**
 ```bash
@@ -67,13 +169,21 @@ Create `.claude/killchain/killchain_manifest.json`:
 
 For each component file in sequence:
 
+**Update TodoWrite Status:**
+Before starting work on a component, mark it as in_progress in the TodoWrite list:
+```
+[completed] kc001: Terminal Interface
+[in_progress] kc002: Camera Class  <- Current component
+[pending] kc003: Recording Logic
+```
+
 #### Step A: Development
 Use the Task tool to launch `killchain_exec_developer`:
 
 ```
 You are a KillChain Developer Agent implementing component kcXXX.
 
-Component file: .claude/killchain/kcXXX_t_description.md
+Component file: .claude/killchain/kcXXX_description.md
 
 Your tasks:
 1. Read the component file thoroughly
@@ -104,7 +214,7 @@ After developer completes, launch `killchain_exec_qa`:
 ```
 You are a KillChain QA Agent testing component kcXXX.
 
-Component file: .claude/killchain/kcXXX_a_description.md
+Component file: .claude/killchain/kcXXX_description.md
 Implementation files: <list from developer agent>
 
 Your tasks:
@@ -138,7 +248,7 @@ After QA approves, launch `killchain_exec_reviewer`:
 ```
 You are a KillChain Code Review Agent reviewing component kcXXX.
 
-Component file: .claude/killchain/kcXXX_a_description.md
+Component file: .claude/killchain/kcXXX_description.md
 Implementation files: <list from developer>
 
 Your review checklist:
@@ -159,23 +269,34 @@ Report back with:
 If changes requested, create specific tasks for developer.
 ```
 
-#### Step D: Update Status
-After review approval, launch `killchain_exec_kanban`:
+#### Step D: Update Status and Todo
+After review approval:
+
+1. **Update TodoWrite:** Mark component as completed:
+   ```
+   [completed] kc001: Terminal Interface
+   [completed] kc002: Camera Class  <- Just completed
+   [pending] kc003: Recording Logic
+   ```
+
+2. **Launch Kanban Agent:**
 
 ```
 You are the KillChain Kanban Agent. Update status for component kcXXX.
 
-Current file: .claude/killchain/kcXXX_a_description.md
+Current file: .claude/killchain/kcXXX_description.md
 
 Tasks:
 1. Mark all TODOs as completed: [ ] → [ completed ]
-2. Rename file: kcXXX_a_description.md → kcXXX_c_description.md
-3. Update killchain_context.json:
-   - Add kcXXX to completed_components
+2. Update killchain_context.json:
+   - Add kcXXX to completed_components with status "completed"
    - Update current_component to next
    - Update last_updated timestamp
+   - Update component_status map: kcXXX → "completed"
 
 Report completion status.
+
+Note: Component status is now tracked in killchain_context.json, not in filenames.
 ```
 
 #### Step E: Git Commit (if git repo)
@@ -283,11 +404,71 @@ Track API usage per component:
 
 ## Parallel Execution (if --parallel flag)
 
-When enabled:
-1. Identify independent components (no dependency chains)
-2. Launch multiple developer agents concurrently
-3. Implement file-level locking to prevent conflicts
-4. Merge results and run integrated QA
+When `--parallel` flag is provided:
+
+### Batch Processing Strategy
+1. **Batch Size**: Process 1-10 components together based on:
+   - Dependency relationships (only independent components)
+   - Complexity estimates
+   - Available context window
+
+2. **Test Isolation Rule**:
+   - **CRITICAL**: NEVER allow tests to run or be implemented while non-test features are being implemented
+   - Tests (unit and integration) are ONLY executed AFTER the entire batch of feature components is complete
+   - Developer agents should implement code WITHOUT running tests during parallel mode
+   - QA phase happens after ALL components in the batch are implemented
+
+### Execution Flow
+1. Identify 1-10 independent components (no dependency chains between them)
+2. Launch multiple developer agents concurrently for implementation only
+3. Wait for ALL developer agents to complete implementation
+4. THEN run QA and tests for the entire batch together
+5. THEN run code review for approved implementations
+6. Update all component statuses together
+
+### File Conflict Prevention
+- Implement file-level locking to prevent conflicts
+- Each agent works on distinct files
+- Merge results after all agents complete
+
+### Batch Completion
+- All components in batch must pass QA before proceeding to next batch
+- If any component fails, fix it before starting next batch
+
+## Time-Based Execution Limits
+
+If the user specifies a time limit (e.g., "continue until 4:55PM"), implement the following:
+
+### Time Monitoring
+1. **Parse Time Limit**: Extract the target time from user's request
+2. **Check Current Time**: Use `date` command via Bash tool to get current time
+   ```bash
+   date '+%H:%M'  # Returns time in HH:MM format
+   ```
+3. **Before Each Component**: Check if there's enough time remaining
+4. **Graceful Stop**: If approaching deadline (within 5 minutes), stop gracefully:
+   - Complete current stage (don't leave component mid-implementation)
+   - Update `killchain_context.json` with current state
+   - Inform user of progress and stopping point
+   - Suggest using `/killchain-resume` to continue later
+
+### Time Checking Strategy
+- Check time before starting each new component
+- Check time before launching each agent
+- Allow current agent to finish if already in progress
+- Never interrupt an agent mid-execution
+
+### Stop Message Format
+```markdown
+## Time Limit Reached
+
+**Target Time:** <user's specified time>
+**Current Time:** <actual time from date command>
+**Last Completed:** kcXXX
+**Current Status:** <saved to context>
+
+Execution stopped gracefully. Use `/killchain-resume` to continue.
+```
 
 ## Important Notes
 

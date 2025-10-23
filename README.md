@@ -12,7 +12,11 @@ KillChain is a sophisticated agent orchestration system designed to manage compl
 - **Multi-Agent Quality Pipeline**: Developer → QA → Code Review → E2E Testing
 - **Zero Tech Debt Policy**: No TODOs, placeholders, or shortcuts allowed
 - **Git Integration**: One commit per component for easy rollback
-- **Progress Tracking**: Real-time status monitoring and time estimates
+- **Progress Tracking**: Real-time status monitoring with TodoWrite integration
+- **Bulk Permission Requests**: One-time upfront permissions to avoid interruptions
+- **Interactive Suggestions**: Multiple-choice questions for handling blockers and ambiguities
+- **Parallel Execution**: Process multiple independent components concurrently
+- **Smart Python Detection**: Auto-detects conda vs standard Python environments
 
 ## Use Cases
 
@@ -119,6 +123,7 @@ Picks up exactly where you left off using checkpoint data.
 | `/killchain-execute` | Begin implementation with multi-agent coordination |
 | `/killchain-resume` | Resume from last checkpoint |
 | `/killchain-status` | Display progress and metrics |
+| `/killchain-toolcheck` | Validate tool availability before execution |
 | `/killchain-approve` | Approve milestone and continue |
 | `/killchain-revise` | Request changes at milestone |
 | `/killchain-rollback` | Revert specific component (requires git) |
@@ -196,9 +201,9 @@ your-project/
 │       ├── killchain_manifest.json     # Project metadata
 │       │
 │       └── kc*.md                      # Component files
-│           ├── kc001_t_component.md    # Todo
-│           ├── kc002_a_component.md    # Active
-│           └── kc003_c_component.md    # Complete
+│           ├── kc001_component.md
+│           ├── kc002_component.md
+│           └── kc003_component.md
 │
 └── your-code/
     └── ... (implemented by KillChain)
@@ -244,20 +249,26 @@ Brief description of purpose
 Components use this naming pattern:
 
 ```
-kc<NNN>_<status>_<description>.md
+kc<NNN>_<description>.md
 ```
 
 - **NNN**: Zero-padded sequence number (001, 002, 003...)
-- **status**: Current state
-  - `t` = Todo (not started)
-  - `a` = Active (work in progress)
-  - `c` = Complete (finished and approved)
 - **description**: Snake_case component name
 
+**Status tracking** is maintained in `killchain_context.json` under the `component_status` field, not in filenames.
+
 **Examples:**
-- `kc001_t_data_loader.md` - First component, not started
-- `kc015_a_validation_logic.md` - Component 15, currently being worked on
-- `kc023_c_output_writer.md` - Component 23, completed
+- `kc001_data_loader.md` - First component
+- `kc015_validation_logic.md` - Component 15
+- `kc023_output_writer.md` - Component 23
+
+**Status values in context:**
+- `"todo"` - Not started
+- `"in_progress"` - Work in progress
+- `"in_qa"` - Being tested
+- `"in_review"` - Being code reviewed
+- `"completed"` - Finished and approved
+- `"blocked"` - Has blockers
 
 ## State Management
 
@@ -310,15 +321,54 @@ KillChain enforces strict quality requirements:
 
 ## Advanced Features
 
+### Bulk Permission Requests
+
+Before execution begins, KillChain requests all necessary permissions upfront in a single prompt:
+- File operations (create, edit, read)
+- Testing commands (pytest, mypy, linters)
+- Git operations (status, add, commit, diff)
+- Package management (pip, npm, cargo)
+- Build and run commands
+
+Grant blanket permission for the entire execution to avoid constant interruptions, or opt for granular control where you approve each operation type individually.
+
+### Interactive Suggestions System
+
+When blockers or ambiguities arise during execution, KillChain presents multiple-choice questions:
+
+```markdown
+# 1 - Should we use async or sync API?
+- A: Async API (better performance, more complex)
+- B: Sync API (simpler, easier to debug)
+- C: Both with adapter pattern
+- Other? (please specify)
+
+Recommendation: B (Sync API) - simpler for initial implementation
+```
+
+This allows you to guide decisions without breaking agent flow.
+
 ### Parallel Execution
 
 Execute independent components concurrently:
 
 ```
 /killchain-execute --parallel
+/killchain-resume --parallel
 ```
 
-Automatically detects which components can run in parallel based on dependencies.
+Automatically detects which components can run in parallel based on dependencies. Processes 1-10 components per batch while maintaining test isolation.
+
+### Dangerous Vibe Mode
+
+For fully automated execution:
+
+```
+/killchain-execute --dangerous-vibe-mode
+/killchain-resume --dangerous-vibe-mode
+```
+
+**WARNING**: Claude auto-selects recommended answers without confirmation. Use only when you trust Claude's judgment completely. All decisions are logged in context for review.
 
 ### Milestone Checkpoints
 
@@ -335,6 +385,25 @@ Safely revert components using git:
 ```
 
 Reverts the component's git commit and resets it to todo status.
+
+### Time Monitoring
+
+Stop execution at a specific time:
+
+```
+"Please work on this until 3:30 PM"
+"Continue execution until 5:00 PM"
+```
+
+KillChain monitors the clock and gracefully stops at the requested time, saving state for later resume.
+
+### Python Environment Detection
+
+KillChain automatically detects your Python environment:
+- **Conda environments**: Uses `python` and `python -m pip`
+- **Standard Python**: Uses `python3` and `python3 -m pip`
+
+This ensures all test commands, type checkers, and linters work correctly regardless of your setup.
 
 ### Budget Controls
 
@@ -357,13 +426,13 @@ System warns at 75% and halts at 100% of budget.
 
 **Planning Output:**
 ```
-1. kc001_t_game_piece_class.md
-2. kc002_t_game_board_class.md
-3. kc003_t_move_validation.md
-4. kc004_t_game_state.md
-5. kc005_t_gameplay_mechanics.md
-6. kc006_t_gameplay_loop.md
-7. kc007_t_ui_display.md
+1. kc001_game_piece_class.md
+2. kc002_game_board_class.md
+3. kc003_move_validation.md
+4. kc004_game_state.md
+5. kc005_gameplay_mechanics.md
+6. kc006_gameplay_loop.md
+7. kc007_ui_display.md
 ```
 
 **Execution:**
@@ -373,11 +442,11 @@ Each component is implemented, tested, reviewed, and committed before moving to 
 
 **Planning Output:**
 ```
-1. kc001_t_terminal_interface.md
-2. kc002_t_camera_class.md
-3. kc003_t_recording_logic.md
-4. kc004_t_video_processing.md
-5. kc005_t_configuration.md
+1. kc001_terminal_interface.md
+2. kc002_camera_class.md
+3. kc003_recording_logic.md
+4. kc004_video_processing.md
+5. kc005_configuration.md
 ```
 
 ## Best Practices
@@ -392,11 +461,13 @@ Each component is implemented, tested, reviewed, and committed before moving to 
 
 ### During Execution
 
-1. **Review Component Files**: Check specifications before approving execution
-2. **Monitor Progress**: Use `/killchain-status` regularly
-3. **Address Blockers Quickly**: Respond promptly to agent questions
-4. **Use Milestones**: Approve at checkpoints to maintain control
-5. **Commit Often**: Git commits per component enable safe rollback
+1. **Grant Permissions**: Use bulk permission request for smoother execution
+2. **Review Component Files**: Check specifications before approving execution
+3. **Monitor Progress**: Use `/killchain-status` regularly or check TodoWrite updates
+4. **Answer Suggestions**: Respond to multiple-choice questions when blockers arise
+5. **Use Milestones**: Approve at checkpoints to maintain control
+6. **Consider Parallel Mode**: Use `--parallel` for independent components
+7. **Commit Often**: Git commits per component enable safe rollback
 
 ### For Best Results
 
@@ -478,7 +549,7 @@ Use cautiously - removes human oversight.
 ## FAQ
 
 **Q: Can I modify component files manually?**
-A: Yes, edit `.claude/killchain/kcXXX_*.md` files as needed. The kanban agent will track changes.
+A: Yes, edit `.claude/killchain/kcXXX_*.md` files as needed. Status is tracked in `killchain_context.json`, so update that file if you change component status manually.
 
 **Q: What happens if I interrupt execution?**
 A: Use `/killchain-resume` to continue from the last checkpoint.
@@ -497,6 +568,12 @@ A: Yes, the system is language-agnostic. Specify your language during planning.
 
 **Q: What if an agent makes a mistake?**
 A: The QA and review agents catch most issues. Use `/killchain-revise` or `/killchain-rollback` if needed.
+
+**Q: What's the difference between `--parallel` and `--dangerous-vibe-mode`?**
+A: `--parallel` executes multiple components concurrently (faster). `--dangerous-vibe-mode` auto-selects answers to questions (more autonomous). They can be combined.
+
+**Q: How do I use the suggestions system?**
+A: When KillChain encounters ambiguity, it presents multiple-choice questions. Select A, B, C, or provide your own answer. The recommended option is marked.
 
 ## Contributing
 
@@ -520,6 +597,16 @@ Built for [Claude Code](https://claude.com/claude-code) by Anthropic.
 
 ---
 
-**Version:** 1.0.0
+**Version:** 2.0.0
+
+**What's New in 2.0:**
+- Interactive suggestions system (multiple-choice questions)
+- Bulk permission requests
+- Parallel execution mode (`--parallel`)
+- Dangerous vibe mode (`--dangerous-vibe-mode`)
+- Python environment auto-detection (conda support)
+- Time monitoring capability
+- TodoWrite integration
+- Simplified file naming (status in context only)
 
 **Created with:** KillChain (yes, it was built using itself!)

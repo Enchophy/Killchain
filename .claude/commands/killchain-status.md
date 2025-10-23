@@ -23,16 +23,22 @@ If not found, inform user this is not a KillChain project.
 ```bash
 # Total components
 ls .claude/killchain/kc*.md | wc -l
-
-# Completed (status: c)
-ls .claude/killchain/kc*_c_*.md | wc -l
-
-# Active (status: a)
-ls .claude/killchain/kc*_a_*.md | wc -l
-
-# Todo (status: t)
-ls .claude/killchain/kc*_t_*.md | wc -l
 ```
+
+**Read Status from Context:**
+Component statuses are tracked in `killchain_context.json` under the `component_status` field:
+```json
+{
+  "component_status": {
+    "kc001": "completed",
+    "kc002": "completed",
+    "kc003": "in_progress",
+    "kc004": "todo"
+  }
+}
+```
+
+Count by parsing this JSON structure.
 
 ### 3. Generate Status Report
 

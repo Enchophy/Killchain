@@ -153,4 +153,5 @@ assert len(result) == expected_length, "Result length mismatch"
 
 **Created:** [timestamp]
 **Last Updated:** [timestamp]
-**Status:** todo
+
+Note: Component status is tracked in killchain_context.json

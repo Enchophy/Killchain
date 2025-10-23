@@ -69,8 +69,8 @@ Organize user's requests:
 
 For each component requiring changes:
 
-**Revert Status:**
-Rename file: `kcXXX_c_name.md` → `kcXXX_a_name.md`
+**Update Status in Context:**
+Update `killchain_context.json` to mark component status as "in_revision"
 
 **Create Revision Tasks:**
 Add to component file:
@@ -89,7 +89,7 @@ Reason: <user's explanation>
 ```
 You are revising component kcXXX based on user feedback.
 
-Component file: .claude/killchain/kcXXX_a_name.md
+Component file: .claude/killchain/kcXXX_name.md
 
 Revision tasks are listed in the "REVISION TASKS" section.
 
@@ -169,8 +169,9 @@ If structural changes needed:
 **New Components:**
 1. Determine insertion point
 2. Renumber subsequent components
-3. Create new kcXXX_t_name.md file(s)
-4. Update total count and estimates
+3. Create new kcXXX_name.md file(s)
+4. Add to killchain_context.json with status "todo"
+5. Update total count and estimates
 
 **Component Removal:**
 1. Verify no dependencies on removed component
