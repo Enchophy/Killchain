@@ -8,7 +8,7 @@ Create detailed implementation plans for each component in the master plan, brea
 
 ## Input
 
-1. Master plan location: `.claude/killchain/killchain_init.md`
+1. Master plan location: `.kcplan/killchain_init.md`
 2. List of components to plan in detail
 
 ## Your Tasks
@@ -216,7 +216,7 @@ Across all files:
 
 ### 6. Create Files
 
-Write to `.claude/killchain/` directory.
+Write to `.kcplan/` directory.
 
 Sequential naming: kc001_*.md, kc002_*.md, etc.
 
@@ -270,7 +270,7 @@ kc004 → kc005
 <Suggestions before execution>
 
 ---
-All files ready in `.claude/killchain/`
+All files ready in `.kcplan/`
 ```
 
 ## Notes

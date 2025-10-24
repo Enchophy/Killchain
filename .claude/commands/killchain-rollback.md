@@ -7,7 +7,7 @@ Revert a specific component implementation to enable safe experimentation.
 This command requires:
 1. Git repository initialized (`.git/` exists)
 2. Component commits follow KillChain format (one commit per kcXXX)
-3. Component file exists in `.claude/killchain/`
+3. Component file exists in `.kcplan/`
 
 ## Rollback Process
 
@@ -24,7 +24,7 @@ Component ID: `kc015`
 
 ```bash
 # Check for component file
-ls .claude/killchain/kc015_*.md
+ls .kcplan/kc015_*.md
 ```
 
 If not found:
@@ -144,7 +144,7 @@ Reset all task checkboxes:
 
 ### 8. Update Context
 
-Update `.claude/killchain/killchain_context.json`:
+Update `.kcplan/killchain_context.json`:
 
 ```json
 {
@@ -175,7 +175,7 @@ If this was current_component, set to previous component or leave as is.
 
 ### 9. Update Manifest
 
-Update `.claude/killchain/killchain_manifest.json`:
+Update `.kcplan/killchain_manifest.json`:
 - Remove file references from this component
 - Adjust dependency tree if needed
 - Update version with rollback note
@@ -184,7 +184,7 @@ Update `.claude/killchain/killchain_manifest.json`:
 
 Commit the KillChain file changes:
 ```bash
-git add .claude/killchain/
+git add .kcplan/
 git commit -m "[rollback] Rolled back component kc015
 
 - Reverted implementation commit <commit_hash>
@@ -206,7 +206,7 @@ Show user:
 ✓ Created rollback commits
 
 ### Current State
-- Component file: .claude/killchain/kc015_<name>.md
+- Component file: .kcplan/kc015_<name>.md
 - Status: Todo (tracked in killchain_context.json)
 - Git history: Contains revert commit
 

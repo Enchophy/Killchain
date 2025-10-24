@@ -46,7 +46,7 @@ cd killchain
 # Copy KillChain files to your project's .claude directory
 cp -r .claude/commands/* your-project/.claude/commands/
 cp -r .claude/agents/* your-project/.claude/agents/
-cp -r .claude/killchain/* your-project/.claude/killchain/
+cp -r .kcplan/* your-project/.kcplan/
 ```
 
 ### Install to Specific Directory
@@ -181,29 +181,29 @@ your-project/
 │   │   ├── killchain-revise.md
 │   │   └── killchain-rollback.md
 │   │
-│   ├── agents/
-│   │   ├── killchain_plan_subplanner.md
-│   │   ├── killchain_exec_developer.md
-│   │   ├── killchain_exec_qa.md
-│   │   ├── killchain_exec_reviewer.md
-│   │   ├── killchain_exec_kanban.md
-│   │   └── killchain_exec_e2e.md
+│   └── agents/
+│       ├── killchain_plan_subplanner.md
+│       ├── killchain_exec_developer.md
+│       ├── killchain_exec_qa.md
+│       ├── killchain_exec_reviewer.md
+│       ├── killchain_exec_kanban.md
+│       └── killchain_exec_e2e.md
+│
+├── .kcplan/                           # KillChain plan directory (gitignored)
+│   ├── templates/
+│   │   ├── kcXXX_template.md
+│   │   ├── killchain_init_template.md
+│   │   ├── killchain_context_template.json
+│   │   └── killchain_manifest_template.json
 │   │
-│   └── killchain/
-│       ├── templates/
-│       │   ├── kcXXX_template.md
-│       │   ├── killchain_init_template.md
-│       │   ├── killchain_context_template.json
-│       │   └── killchain_manifest_template.json
-│       │
-│       ├── killchain_init.md           # Master plan
-│       ├── killchain_context.json      # Project state
-│       ├── killchain_manifest.json     # Project metadata
-│       │
-│       └── kc*.md                      # Component files
-│           ├── kc001_component.md
-│           ├── kc002_component.md
-│           └── kc003_component.md
+│   ├── killchain_init.md              # Master plan
+│   ├── killchain_context.json         # Project state
+│   ├── killchain_manifest.json        # Project metadata
+│   │
+│   └── kc*.md                         # Component files
+│       ├── kc001_component.md
+│       ├── kc002_component.md
+│       └── kc003_component.md
 │
 └── your-code/
     └── ... (implemented by KillChain)
@@ -274,7 +274,7 @@ kc<NNN>_<description>.md
 
 ### Context File
 
-`.claude/killchain/killchain_context.json` tracks:
+`.kcplan/killchain_context.json` tracks:
 - Current component being worked on
 - Completed components list
 - Active tasks and their status
@@ -285,7 +285,7 @@ kc<NNN>_<description>.md
 
 ### Manifest File
 
-`.claude/killchain/killchain_manifest.json` contains:
+`.kcplan/killchain_manifest.json` contains:
 - Project metadata
 - Technology stack
 - Dependencies
@@ -485,7 +485,7 @@ Run `/killchain-plan` first to initialize the project.
 
 ### "Component file missing"
 
-Check `.claude/killchain/` directory. Re-run planning if files are missing.
+Check `.kcplan/` directory. Re-run planning if files are missing.
 
 ### "Git repository required"
 
@@ -549,7 +549,7 @@ Use cautiously - removes human oversight.
 ## FAQ
 
 **Q: Can I modify component files manually?**
-A: Yes, edit `.claude/killchain/kcXXX_*.md` files as needed. Status is tracked in `killchain_context.json`, so update that file if you change component status manually.
+A: Yes, edit `.kcplan/kcXXX_*.md` files as needed. Status is tracked in `killchain_context.json`, so update that file if you change component status manually.
 
 **Q: What happens if I interrupt execution?**
 A: Use `/killchain-resume` to continue from the last checkpoint.

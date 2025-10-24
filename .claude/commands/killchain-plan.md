@@ -6,6 +6,35 @@ You are now entering the **KillChain Planning Phase**. This is a multi-agent pro
 
 You are the **Planning Orchestrator**. Your goal is to work with the user to create a comprehensive, structured implementation plan.
 
+## Setup
+
+Before planning, set up the project structure:
+
+### 1. Create Directory Structure
+```bash
+mkdir -p .kcplan
+```
+
+### 2. Add to .gitignore
+
+Plan files are user-specific and shouldn't be committed by default:
+
+```bash
+# Create .gitignore if it doesn't exist
+if [ ! -f .gitignore ]; then
+  echo ".kcplan/" > .gitignore
+  echo "Added .kcplan/ to new .gitignore"
+else
+  # Check if .kcplan/ is already in .gitignore
+  if ! grep -q "^\.kcplan/" .gitignore && ! grep -q "^\.kcplan\$" .gitignore; then
+    echo ".kcplan/" >> .gitignore
+    echo "Added .kcplan/ to existing .gitignore"
+  else
+    echo ".kcplan/ already in .gitignore"
+  fi
+fi
+```
+
 ## Planning Process
 
 ### 1. Gather Requirements
@@ -75,13 +104,8 @@ For a Webcam Recorder:
 ### 4. Initiate Sub-Planning
 Once the user approves the plan:
 
-**Create Initial Structure:**
-```bash
-mkdir -p .claude/killchain
-```
-
 **Create Master Plan Document:**
-Create `.claude/killchain/killchain_init.md` containing:
+Create `.kcplan/killchain_init.md` containing:
 - Project overview
 - Technology stack
 - High-level component list
@@ -95,7 +119,7 @@ After creating the master plan, use the Task tool to launch the `killchain_plan_
 ```
 You are the KillChain Sub-Planner. Your task is to create detailed implementation plans for each component.
 
-Master plan location: .claude/killchain/killchain_init.md
+Master plan location: .kcplan/killchain_init.md
 
 For each component in the master plan, create a detailed markdown file with this naming convention:
 kc<NNN>_<description>.md
@@ -144,7 +168,7 @@ Brief description of this component and its role in the project.
 ## Task 2
 ... (repeat structure)
 
-Create all kcXXX files in .claude/killchain/ directory.
+Create all kcXXX files in .kcplan/ directory.
 Report back when complete with a summary of files created.
 ```
 

@@ -17,7 +17,7 @@ INSTALL_DIR="${KILLCHAIN_INSTALL_DIR:-.}"
 CLAUDE_DIR="$INSTALL_DIR/.claude"
 COMMANDS_DIR="$CLAUDE_DIR/commands"
 AGENTS_DIR="$CLAUDE_DIR/agents"
-KILLCHAIN_DIR="$CLAUDE_DIR/killchain"
+KILLCHAIN_DIR="$INSTALL_DIR/.kcplan"
 TEMPLATES_DIR="$KILLCHAIN_DIR/templates"
 
 # Script directory (where this script is located)
@@ -156,7 +156,7 @@ install_templates() {
 
     local installed=0
     for template in "${templates[@]}"; do
-        local source="$SCRIPT_DIR/.claude/killchain/templates/$template"
+        local source="$SCRIPT_DIR/.kcplan/templates/$template"
         local dest="$TEMPLATES_DIR/$template"
 
         if [ -f "$source" ]; then
@@ -178,7 +178,7 @@ create_readme() {
         print_warning "README already exists, skipping"
     else
         cat > "$readme" << 'EOF'
-# KillChain Directory
+# KillChain Plan Directory
 
 This directory contains KillChain project orchestration files.
 
@@ -188,7 +188,7 @@ This directory contains KillChain project orchestration files.
 - `killchain_init.md` - Master plan (created during planning)
 - `killchain_context.json` - Project state and progress
 - `killchain_manifest.json` - Project metadata
-- `kc*_*.md` - Component specification files
+- `kc*.md` - Component specification files
 
 ## Usage
 
@@ -206,18 +206,23 @@ Use the slash commands in Claude Code:
 
 Component files follow this pattern:
 ```
-kc<NNN>_<status>_<description>.md
+kc<NNN>_<description>.md
 ```
 
 Where:
 - `NNN` = Zero-padded sequence number (001, 002, etc.)
-- `status` = t (todo), a (active), c (complete)
 - `description` = Snake_case component name
+
+Status is tracked in `killchain_context.json`, not in filenames.
 
 ## State Files
 
 - **killchain_context.json**: Tracks current progress, decisions, blockers
 - **killchain_manifest.json**: Project metadata, dependencies, structure
+
+## Gitignore
+
+This directory is typically added to `.gitignore` as plans are user-specific.
 
 ---
 
@@ -292,7 +297,7 @@ print_next_steps() {
     echo
     echo "For more information, see:"
     echo "   - README.md (main documentation)"
-    echo "   - .claude/killchain/README.md (usage guide)"
+    echo "   - .kcplan/README.md (usage guide)"
     echo
 }
 

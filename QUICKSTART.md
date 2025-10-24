@@ -57,7 +57,7 @@ User: Yes, looks great!
 Claude: Creating detailed component specifications...
 [Creates kc001_t_task_data_model.md through kc005_t_main_loop.md]
 
-Component planning complete! Review the files in .claude/killchain/
+Component planning complete! Review the files in .kcplan/
 Ready to start implementation? Use /killchain-execute
 ```
 
@@ -66,7 +66,7 @@ Ready to start implementation? Use /killchain-execute
 Check the generated files:
 
 ```bash
-ls .claude/killchain/
+ls .kcplan/
 # kc001_t_task_data_model.md
 # kc002_t_task_storage.md
 # kc003_t_task_crud.md
@@ -306,7 +306,7 @@ Run `/killchain-plan` first to create the project structure.
 
 Check if file exists:
 ```bash
-ls .claude/killchain/kc*.md
+ls .kcplan/kc*.md
 ```
 
 If missing, you may need to re-run planning.

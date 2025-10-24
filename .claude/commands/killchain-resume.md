@@ -25,20 +25,20 @@ Resume with batch processing of multiple independent components. See "Parallel E
 Check for required files:
 ```bash
 # Master plan
-ls .claude/killchain/killchain_init.md
+ls .kcplan/killchain_init.md
 
 # Context snapshot
-ls .claude/killchain/killchain_context.json
+ls .kcplan/killchain_context.json
 
 # Component files
-ls .claude/killchain/kc*.md
+ls .kcplan/kc*.md
 ```
 
 If these files don't exist, inform the user this doesn't appear to be a KillChain project.
 
 ### 2. Load Context
 
-Read `.claude/killchain/killchain_context.json`:
+Read `.kcplan/killchain_context.json`:
 
 ```json
 {

@@ -5,7 +5,7 @@ You are now entering the **KillChain Execution Phase**. You are the **Project Ma
 ## Prerequisites Check
 
 Before starting, verify:
-1. `.claude/killchain/killchain_init.md` exists (master plan)
+1. `.kcplan/killchain_init.md` exists (master plan)
 2. `kc001_*.md` through `kcNNN_*.md` files exist (component plans)
 3. User has reviewed and approved the plans
 
@@ -132,11 +132,11 @@ This provides the user with visible progress tracking throughout execution.
 **Load Project State:**
 ```bash
 # Find all killchain files
-ls .claude/killchain/kc*.md
+ls .kcplan/kc*.md
 ```
 
 **Create Context File:**
-Create `.claude/killchain/killchain_context.json`:
+Create `.kcplan/killchain_context.json`:
 ```json
 {
   "project_name": "<from master plan>",
@@ -152,7 +152,7 @@ Create `.claude/killchain/killchain_context.json`:
 ```
 
 **Create Manifest:**
-Create `.claude/killchain/killchain_manifest.json`:
+Create `.kcplan/killchain_manifest.json`:
 ```json
 {
   "technology_stack": [],
@@ -183,7 +183,7 @@ Use the Task tool to launch `killchain_exec_developer`:
 ```
 You are a KillChain Developer Agent implementing component kcXXX.
 
-Component file: .claude/killchain/kcXXX_description.md
+Component file: .kcplan/kcXXX_description.md
 
 Your tasks:
 1. Read the component file thoroughly
@@ -214,7 +214,7 @@ After developer completes, launch `killchain_exec_qa`:
 ```
 You are a KillChain QA Agent testing component kcXXX.
 
-Component file: .claude/killchain/kcXXX_description.md
+Component file: .kcplan/kcXXX_description.md
 Implementation files: <list from developer agent>
 
 Your tasks:
@@ -248,7 +248,7 @@ After QA approves, launch `killchain_exec_reviewer`:
 ```
 You are a KillChain Code Review Agent reviewing component kcXXX.
 
-Component file: .claude/killchain/kcXXX_description.md
+Component file: .kcplan/kcXXX_description.md
 Implementation files: <list from developer>
 
 Your review checklist:
@@ -284,7 +284,7 @@ After review approval:
 ```
 You are the KillChain Kanban Agent. Update status for component kcXXX.
 
-Current file: .claude/killchain/kcXXX_description.md
+Current file: .kcplan/kcXXX_description.md
 
 Tasks:
 1. Mark all TODOs as completed: [ ] → [ completed ]

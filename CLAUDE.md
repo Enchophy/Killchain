@@ -61,7 +61,7 @@ When modifying KillChain components:
    - Include error handling guidance
    - Specify expected inputs and outputs
 
-3. **Templates** ([.claude/killchain/templates/](.claude/killchain/templates/))
+3. **Templates** ([.kcplan/templates/](.kcplan/templates/))
    - Standard formats for component files
    - JSON templates must be valid JSON
    - Markdown templates should follow consistent structure

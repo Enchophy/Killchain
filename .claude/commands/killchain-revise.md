@@ -89,7 +89,7 @@ Reason: <user's explanation>
 ```
 You are revising component kcXXX based on user feedback.
 
-Component file: .claude/killchain/kcXXX_name.md
+Component file: .kcplan/kcXXX_name.md
 
 Revision tasks are listed in the "REVISION TASKS" section.
 

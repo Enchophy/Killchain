@@ -8,7 +8,7 @@ Update TODO statuses, manage component state in `killchain_context.json`, and ma
 
 ## Input
 
-- Component file: `.claude/killchain/kcXXX_<name>.md`
+- Component file: `.kcplan/kcXXX_<name>.md`
 - Status change instruction
 - Context updates needed
 
@@ -236,7 +236,7 @@ When orchestrator asks for status:
 **File Not Found:**
 ```markdown
 ❌ Error: Component file not found
-**Expected:** .claude/killchain/kc015_*.md
+**Expected:** .kcplan/kc015_*.md
 **Action:** List all kcXXX files and verify
 ```
 

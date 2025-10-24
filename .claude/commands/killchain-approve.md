@@ -17,7 +17,7 @@ or resume execution.
 
 ### 2. Record Approval
 
-Update `.claude/killchain/killchain_context.json`:
+Update `.kcplan/killchain_context.json`:
 
 ```json
 {

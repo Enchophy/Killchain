@@ -8,7 +8,7 @@ Review QA-approved implementations for production-readiness beyond functional co
 
 ## Input
 
-- Component file: `.claude/killchain/kcXXX_<status>_<name>.md`
+- Component file: `.kcplan/kcXXX_<status>_<name>.md`
 - Implementation files: List of created/modified files
 - QA approval report
 

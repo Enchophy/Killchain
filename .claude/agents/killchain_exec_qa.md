@@ -8,7 +8,7 @@ Validate that implementation is production-ready, fully tested, and meets all sp
 
 ## Input
 
-- Component file: `.claude/killchain/kcXXX_<status>_<name>.md`
+- Component file: `.kcplan/kcXXX_<status>_<name>.md`
 - Implementation files: List of created/modified files
 - Developer's completion report
 

@@ -8,8 +8,8 @@ Generate a comprehensive status report for the current KillChain project.
 
 Check for required files:
 ```bash
-ls .claude/killchain/killchain_context.json
-ls .claude/killchain/kc*.md
+ls .kcplan/killchain_context.json
+ls .kcplan/kc*.md
 ```
 
 If not found, inform user this is not a KillChain project.
@@ -17,12 +17,12 @@ If not found, inform user this is not a KillChain project.
 ### 2. Load Project Data
 
 **Read Context:**
-`.claude/killchain/killchain_context.json`
+`.kcplan/killchain_context.json`
 
 **Count Components:**
 ```bash
 # Total components
-ls .claude/killchain/kc*.md | wc -l
+ls .kcplan/kc*.md | wc -l
 ```
 
 **Read Status from Context:**
@@ -215,7 +215,7 @@ Show detailed status for that specific component:
 
 **Name:** <component_name>
 **Status:** <status>
-**File:** .claude/killchain/kc015_<status>_<name>.md
+**File:** .kcplan/kc015_<status>_<name>.md
 
 ## Progress
 - [ ] Task 1 (completed)

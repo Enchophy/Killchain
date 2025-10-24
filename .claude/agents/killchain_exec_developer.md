@@ -8,7 +8,7 @@ Implement production-ready code that fully satisfies all requirements, acceptanc
 
 ## Input
 
-- Component file: `.claude/killchain/kcXXX_<status>_<name>.md`
+- Component file: `.kcplan/kcXXX_<status>_<name>.md`
 - Project context (technology stack, conventions, dependencies)
 - User guidance or constraints
 
