@@ -1,0 +1,199 @@
+{
+  "$schema": "https://claude.ai/settings-schema.json",
+  "description": "DANGEROUS: Extremely permissive settings for KillChain - grants Claude broad permissions upfront",
+
+  "xrayRules": [
+    {
+      "description": "Auto-approve all file operations",
+      "patterns": ["**/*"],
+      "permissions": {
+        "read": "always",
+        "write": "always",
+        "delete": "ask"
+      }
+    }
+  ],
+
+  "bashRules": [
+    {
+      "description": "Auto-approve common development commands",
+      "patterns": [
+        "ls*",
+        "cat*",
+        "pwd",
+        "echo*",
+        "date*",
+        "which*",
+        "find*",
+        "grep*"
+      ],
+      "permission": "always"
+    },
+    {
+      "description": "Auto-approve git operations (except force push)",
+      "patterns": [
+        "git status*",
+        "git diff*",
+        "git log*",
+        "git show*",
+        "git branch*",
+        "git add*",
+        "git commit*",
+        "git push*",
+        "git pull*",
+        "git checkout*",
+        "git merge*",
+        "git stash*"
+      ],
+      "permission": "always"
+    },
+    {
+      "description": "Auto-approve package managers",
+      "patterns": [
+        "npm install*",
+        "npm test*",
+        "npm run*",
+        "npm ci*",
+        "yarn install*",
+        "yarn test*",
+        "yarn run*",
+        "pip install*",
+        "pip3 install*",
+        "python -m pip*",
+        "python3 -m pip*",
+        "cargo build*",
+        "cargo test*",
+        "cargo run*",
+        "go get*",
+        "go build*",
+        "go test*"
+      ],
+      "permission": "always"
+    },
+    {
+      "description": "Auto-approve test runners",
+      "patterns": [
+        "pytest*",
+        "python -m pytest*",
+        "python3 -m pytest*",
+        "npm test*",
+        "yarn test*",
+        "cargo test*",
+        "go test*",
+        "jest*",
+        "mocha*",
+        "vitest*"
+      ],
+      "permission": "always"
+    },
+    {
+      "description": "Auto-approve linters and formatters",
+      "patterns": [
+        "eslint*",
+        "prettier*",
+        "black*",
+        "flake8*",
+        "pylint*",
+        "mypy*",
+        "python -m mypy*",
+        "python3 -m mypy*",
+        "ruff*",
+        "clippy*",
+        "rustfmt*",
+        "gofmt*"
+      ],
+      "permission": "always"
+    },
+    {
+      "description": "Auto-approve build commands",
+      "patterns": [
+        "make*",
+        "cmake*",
+        "npm build*",
+        "yarn build*",
+        "cargo build*",
+        "go build*",
+        "tsc*",
+        "webpack*",
+        "vite*",
+        "esbuild*"
+      ],
+      "permission": "always"
+    },
+    {
+      "description": "Auto-approve directory operations",
+      "patterns": [
+        "mkdir*",
+        "cd*",
+        "tree*"
+      ],
+      "permission": "always"
+    },
+    {
+      "description": "Block dangerous commands",
+      "patterns": [
+        "rm -rf /*",
+        "rm -rf ~*",
+        "dd*",
+        "mkfs*",
+        ":(){ :|:& };:",
+        "curl * | sh",
+        "wget * | sh",
+        "curl * | bash",
+        "wget * | bash",
+        "chmod -R 777 /*",
+        "git push --force origin main",
+        "git push --force origin master",
+        "git push -f origin main",
+        "git push -f origin master"
+      ],
+      "permission": "block"
+    },
+    {
+      "description": "Ask for permission on potentially risky operations",
+      "patterns": [
+        "rm -rf*",
+        "sudo*",
+        "chmod*",
+        "chown*",
+        "killall*",
+        "pkill*"
+      ],
+      "permission": "ask"
+    }
+  ],
+
+  "browserRules": [
+    {
+      "description": "Allow browsing documentation sites",
+      "patterns": [
+        "https://docs.python.org/*",
+        "https://developer.mozilla.org/*",
+        "https://nodejs.org/*",
+        "https://docs.npmjs.com/*",
+        "https://doc.rust-lang.org/*",
+        "https://go.dev/*",
+        "https://stackoverflow.com/*",
+        "https://github.com/*"
+      ],
+      "permission": "always"
+    }
+  ],
+
+  "mcpServers": {},
+
+  "warnings": [
+    "⚠️  DANGEROUS MODE ENABLED",
+    "⚠️  This configuration grants Claude broad permissions to:",
+    "    - Read and write files automatically",
+    "    - Run git commands without asking",
+    "    - Install packages via npm, pip, cargo, etc.",
+    "    - Run tests and linters automatically",
+    "    - Execute build commands",
+    "",
+    "⚠️  Only use this in trusted projects and development environments!",
+    "⚠️  Review the settings.local.json.dangerous file to understand what's allowed",
+    "",
+    "To use safer settings, delete or rename this file and restart Claude Code."
+  ]
+}

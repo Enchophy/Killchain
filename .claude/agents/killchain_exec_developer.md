@@ -42,8 +42,6 @@ fi
 
 **IMPORTANT:** Use `$PYTHON_CMD` throughout:
 - `$PYTHON_CMD -m pip` (not pip/pip3)
-- `$PYTHON_CMD -m pytest` (not pytest)
-- `$PYTHON_CMD -m mypy` (not mypy)
 
 **Identify:**
 - Which files to create/modify

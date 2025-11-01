@@ -170,6 +170,58 @@ install_templates() {
     print_success "Installed $installed templates"
 }
 
+install_dangerous_settings() {
+    print_step "Checking for dangerous settings installation..."
+
+    local dangerous_source="$SCRIPT_DIR/settings.local.json.dangerous"
+    local dangerous_dest="$INSTALL_DIR/settings.local.json.dangerous"
+    local settings_dest="$INSTALL_DIR/settings.local.json"
+
+    # Copy the dangerous settings template if it exists
+    if [ -f "$dangerous_source" ]; then
+        cp "$dangerous_source" "$dangerous_dest"
+        print_success "Copied settings.local.json.dangerous template"
+    fi
+
+    # Ask user if they want to use dangerous mode
+    echo
+    echo -e "${YELLOW}╔════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${YELLOW}║          DANGEROUS MODE SETTINGS AVAILABLE             ║${NC}"
+    echo -e "${YELLOW}╚════════════════════════════════════════════════════════╝${NC}"
+    echo
+    echo "KillChain can operate in 'Dangerous Mode' which grants Claude"
+    echo "broad permissions upfront, reducing interruptions during execution."
+    echo
+    echo -e "${YELLOW}⚠️  WARNING: This mode automatically allows:${NC}"
+    echo "   - Reading and writing files without asking"
+    echo "   - Running git commands automatically"
+    echo "   - Installing packages (npm, pip, cargo, etc.)"
+    echo "   - Running tests and linters"
+    echo "   - Executing build commands"
+    echo
+    echo -e "${YELLOW}⚠️  Only use in trusted projects and dev environments!${NC}"
+    echo
+    read -p "Install dangerous mode settings? (y/N): " -n 1 -r
+    echo
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        if [ -f "$dangerous_dest" ]; then
+            cp "$dangerous_dest" "$settings_dest"
+            print_success "Installed dangerous mode settings as settings.local.json"
+            echo
+            echo -e "${RED}⚠️  DANGEROUS MODE ACTIVE${NC}"
+            echo "To disable: delete or rename settings.local.json"
+            echo
+        else
+            print_error "settings.local.json.dangerous not found"
+        fi
+    else
+        print_success "Skipped dangerous mode installation"
+        echo "You can enable it later by running:"
+        echo "  cp settings.local.json.dangerous settings.local.json"
+    fi
+}
+
 create_readme() {
     print_step "Creating README if needed..."
 
@@ -318,6 +370,7 @@ main() {
     install_commands
     install_agents
     install_templates
+    install_dangerous_settings
     create_readme
 
     echo
