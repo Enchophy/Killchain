@@ -262,19 +262,24 @@ Ready for QA review.
 ## Handling Challenges
 
 **Unclear Specs:**
-```markdown
-## BLOCKER: Specification Ambiguity
 
-**Issue:** "<requirement>" unclear - could mean X or Y
+When specifications are ambiguous, use the AskUserQuestion tool to get clarification:
 
-# 1 - <question>
-- A: <option with implications>
-- B: <option with implications>
-- C: <option> (if applicable)
-- Other?
-
-**Recommendation:** <best option> because <reason>
 ```
+IMPORTANT: You should use the AskUserQuestion tool directly (not just suggest it in the report).
+
+Use AskUserQuestion with:
+- question: "<specific question about the unclear requirement>"
+- options: [
+    "<option A with implications>",
+    "<option B with implications>",
+    "<option C if applicable>",
+    "Other (please specify)"
+  ]
+- context: "Recommendation: <best option> because <reason>. This decision affects: <impact description>"
+```
+
+After receiving the answer, update the component file with the decision and proceed with implementation.
 
 **Missing Dependencies:**
 ```markdown

@@ -117,15 +117,13 @@ If blockers exist:
 
 ### 5. Answer Pending Questions
 
-If questions exist:
-1. Present each question with options using the standard format:
+If questions exist in `questions_for_user`:
+1. For each question, use the AskUserQuestion tool:
 ```
-# 1 - <question title>
-- A: <option description>
-- B: <option description>
-- C: <option description>
-- Other? (please specify)
-I recommend <best option> because: <brief description why it's the best option>
+Use AskUserQuestion with:
+- question: "<question from context>"
+- options: <options array from context>
+- context: "<any relevant context or recommendation>"
 ```
 2. Record user's decision in decisions_made
 3. Update relevant component files with decisions
@@ -138,7 +136,8 @@ Based on current_component status:
 **Status: "in_progress"**
 - Review what was last attempted
 - Check if partially complete
-- Ask user: Continue from here or restart this component?
+- Use AskUserQuestion tool to ask: "Continue from where we left off or restart this component?"
+  - Options: ["Continue from current progress", "Restart this component from scratch"]
 
 **Status: "blocked"**
 - Review blocker resolution
@@ -272,7 +271,8 @@ If user provides component number:
 
 1. Verify component exists
 2. Check if already completed
-3. If completed: ask user if they want to redo it
+3. If completed: Use AskUserQuestion tool to ask if they want to redo it
+   - Options: ["Yes, redo this component", "No, continue from next component"]
 4. If not completed: start from there
 5. Update current_component in context
 
@@ -300,7 +300,7 @@ Estimated completion: <estimate with confidence interval>
 
 - Always update killchain_context.json after changes
 - Preserve decision history for continuity
-- If context seems corrupted, ask user before proceeding
+- If context seems corrupted, use AskUserQuestion tool to ask user how to proceed before taking action
 - Resume capability is why statelessness is powerful
 
 ---

@@ -17,47 +17,48 @@ Before beginning execution, request all necessary permissions from the user in o
 
 ### Permission Request Message
 
-Present to user:
+Use the AskUserQuestion tool to request permissions:
 
-```markdown
-## KillChain Execution: Permission Request
+```
+Use AskUserQuestion with:
+- question: "Grant blanket permission for KillChain execution operations?"
+- options: [
+    "Yes - grant all permissions for entire execution",
+    "No - I want granular control over each operation type",
+    "Some - I'll specify which permissions to grant"
+  ]
+- context: "To execute this project efficiently, I'll need permission for the following operations:
 
-To execute this project efficiently, I'll need permission for the following operations:
+**File Operations**
+- Create and edit source code files in project directories
+- Create and edit test files
+- Create directories (for organizing code and tests)
+- Read all project files for context
 
-### File Operations
-- ✓ Create and edit source code files in project directories
-- ✓ Create and edit test files
-- ✓ Create directories (for organizing code and tests)
-- ✓ Read all project files for context
+**Testing & Quality Assurance**
+- Run test commands (pytest, npm test, cargo test, etc.)
+- Run type checkers (mypy, TypeScript compiler)
+- Run linters (pylint, black, eslint)
+- Generate coverage reports
 
-### Testing & Quality Assurance
-- ✓ Run test commands (pytest, npm test, cargo test, etc.)
-- ✓ Run type checkers (mypy, TypeScript compiler)
-- ✓ Run linters (pylint, black, eslint)
-- ✓ Generate coverage reports
+**Version Control (Git)**
+- Read git status and history
+- Stage files (git add)
+- Create commits (git commit)
+- View diffs (git diff)
 
-### Version Control (Git)
-- ✓ Read git status and history
-- ✓ Stage files (git add)
-- ✓ Create commits (git commit)
-- ✓ View diffs (git diff)
+**Package Management (if needed)**
+- Install dependencies (pip install, npm install, cargo build)
+- Update packages if required
 
-### Package Management (if needed)
-- ✓ Install dependencies (pip install, npm install, cargo build)
-- ✓ Update packages if required
-
-### Build & Run
-- ✓ Run build commands
-- ✓ Execute scripts and programs for testing
-
-**Grant blanket permission for entire execution?** (yes/no)
-
-If you prefer granular control, I'll ask for permission before each operation type.
+**Build & Run**
+- Run build commands
+- Execute scripts and programs for testing"
 ```
 
 ### Handle Response
 
-**If user says "yes":**
+**If user selects "Yes - grant all permissions for entire execution":**
 - Record in `killchain_context.json`:
   ```json
   {
@@ -73,14 +74,15 @@ If you prefer granular control, I'll ask for permission before each operation ty
   ```
 - Proceed with execution without asking for permission again
 
-**If user says "no" or wants granular control:**
+**If user selects "No - I want granular control over each operation type":**
 - Record in context that granular permission mode is active
-- Ask for permission before each operation type
+- Use AskUserQuestion tool before each operation type
 - Remember granted permissions in context to avoid re-asking
 
-**If user says "some" or specifies specific permissions:**
+**If user selects "Some - I'll specify which permissions to grant":**
+- Use AskUserQuestion tool to ask which specific permissions to grant
 - Record which specific permissions were granted
-- Ask for remaining permissions as needed during execution
+- Ask for remaining permissions as needed during execution using AskUserQuestion tool
 
 ## Execution Modes
 
@@ -382,7 +384,7 @@ Ready to proceed? Use:
 ### Developer Agent Fails
 1. **First retry**: Launch developer agent again with higher thinking tokens
 2. **Second retry**: Try different implementation approach
-3. **After N failures**: Escalate to user with specific questions
+3. **After N failures**: Escalate to user using AskUserQuestion tool with specific questions about the blocker
 
 ### QA Issues Found
 - Don't fail entire component

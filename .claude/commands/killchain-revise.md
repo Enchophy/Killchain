@@ -17,34 +17,22 @@ to see current project state.
 
 ### 2. Gather Revision Requirements
 
-Ask the user what needs to be revised:
+Use the AskUserQuestion tool to understand what needs revision:
 
-```markdown
-## Revision Request
-
-Please specify what you'd like to revise:
-
-1. **Component-specific changes**
-   - Which component(s) need revision? (kcXXX)
-   - What specific changes are needed?
-
-2. **Cross-cutting changes**
-   - Architecture adjustments?
-   - Style or convention changes?
-   - Performance optimizations?
-
-3. **Quality concerns**
-   - Test coverage issues?
-   - Security vulnerabilities?
-   - Documentation gaps?
-
-4. **Scope changes**
-   - Add new requirements?
-   - Remove functionality?
-   - Reprioritize components?
-
-Please describe your revision requests in detail.
+First, ask about the type of revision:
 ```
+Use AskUserQuestion with:
+- question: "What type of revision do you need?"
+- options: [
+    "Component-specific changes (modify existing components)",
+    "Cross-cutting changes (architecture, style, performance)",
+    "Quality concerns (tests, security, documentation)",
+    "Scope changes (add/remove features, reprioritize)"
+  ]
+- context: "This helps determine the best approach for your revisions."
+```
+
+Then follow up with specific questions based on their selection to gather detailed revision requirements.
 
 ### 3. Categorize Revisions
 
@@ -243,4 +231,4 @@ Ready to proceed? Use /killchain-approve to continue.
 
 ---
 
-Begin by asking the user what they'd like to revise.
+Begin by using the AskUserQuestion tool to gather revision requirements from the user.

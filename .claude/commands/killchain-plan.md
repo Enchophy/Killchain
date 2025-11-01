@@ -43,25 +43,22 @@ fi
 - Identify the technology stack and dependencies
 - Ask clarifying questions until you have a complete picture
 
-**When presenting options or questions to the user, use this format:**
+**When presenting questions to the user, use the AskUserQuestion tool:**
+
+The AskUserQuestion tool provides an interactive, user-friendly way to gather input. Use it for:
+- Multiple choice questions about technology stack, architecture, or approach
+- Yes/no decisions about project scope or features
+- Open-ended questions requiring detailed explanation
+
+**Example usage:**
 ```
-# 1 - <question title>
-- A: <option description>
-- B: <option description>
-- C: <option description>
-- Other? (please specify)
-I recommend <best option> because: <brief description why it's the best option>
-
-# 2 - <question title>
-- A: <option description>
-- B: <option description>
-- Other? (please specify)
-I recommend <best option> because: <brief description why it's the best option>
+Use the AskUserQuestion tool with:
+- question: "What frontend framework would you like to use for this project?"
+- options: ["React", "Vue", "Svelte", "Other (please specify)"]
+- context: "This affects component structure and build configuration. React is recommended for this project due to its ecosystem and team familiarity."
 ```
 
-This allows users to respond easily with: "1 A, 2 B" or "1 Other: custom approach"
-
-The recommendation helps users make informed decisions and provides justification for the suggested approach.
+The tool will present options clearly and capture the user's response in a structured format.
 
 ### 2. Design High-Level Plan
 Create a step-by-step implementation plan following these principles:
@@ -99,7 +96,14 @@ For a Webcam Recorder:
 ### 3. Present Plan for Approval
 - Show the user your high-level plan as a numbered list
 - Each item should be a clear component with brief description
-- Ask for feedback and iterate until approved
+- Use the AskUserQuestion tool to get approval:
+  ```
+  Use AskUserQuestion with:
+  - question: "Does this high-level plan look good to you?"
+  - options: ["Yes, proceed with detailed planning", "No, I have changes to request", "I need more information"]
+  - context: "<Present the numbered component list here>"
+  ```
+- Iterate based on feedback until approved
 
 ### 4. Initiate Sub-Planning
 Once the user approves the plan:
@@ -200,4 +204,4 @@ When ready, the user will use `/killchain-execute` to begin implementation.
 
 ---
 
-Begin by asking the user about their project requirements.
+Begin by using the AskUserQuestion tool to gather initial project requirements from the user.
