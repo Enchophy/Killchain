@@ -55,6 +55,62 @@ cp -r .kcplan/* your-project/.kcplan/
 ./install.sh --dir /path/to/your/project
 ```
 
+## Docker Integration (New!)
+
+KillChain now supports Docker for isolated, autonomous execution!
+
+### Quick Start with Docker
+
+```bash
+# Install KillChain with CLI support
+./install.sh
+# Say 'y' when prompted to install CLI
+
+# (Optional) Set your API key iyw.
+export ANTHROPIC_API_KEY="your-api-key-here"
+
+# Run KillChain commands from terminal
+killchain plan
+killchain execute --dangerous --parallel
+killchain status
+```
+
+### What Docker Mode Provides
+
+- **Terminal Commands**: Run `killchain` commands directly from your shell
+- **Dangerous Mode**: Bypass permissions for fully autonomous operation (Docker-only)
+- **Isolation**: Run in containerized environment for safety
+- **Interactive Prompts**: Choose modes interactively or via flags
+
+### Docker Commands
+
+```bash
+# Interactive mode (prompts for options)
+killchain plan
+killchain execute
+killchain resume
+
+# Full autonomous mode
+killchain resume --dangerous --parallel
+
+# View status (no Docker needed)
+killchain status
+```
+
+### When to Use Docker
+
+✅ **Use Docker mode when**:
+- You want fully autonomous execution
+- Testing or prototyping new features
+- Working in isolated development environments
+
+❌ **Skip Docker when**:
+- Using traditional slash commands (`/killchain-plan`)
+- You want granular control over each operation
+- Working without Docker installed
+
+**See [DOCKER.md](DOCKER.md) for complete Docker documentation.**
+
 ## Quick Start
 
 ### 1. Plan Your Project

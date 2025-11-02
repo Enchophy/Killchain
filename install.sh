@@ -222,6 +222,81 @@ install_dangerous_settings() {
     fi
 }
 
+install_cli() {
+    print_step "Checking for CLI installation..."
+
+    local cli_source="$SCRIPT_DIR/bin/killchain"
+    local docker_dir="$SCRIPT_DIR/docker"
+
+    # Check if CLI script exists
+    if [ ! -f "$cli_source" ]; then
+        print_warning "CLI script not found, skipping"
+        return
+    fi
+
+    # Ask user if they want to install the CLI
+    echo
+    echo -e "${BLUE}╔════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${BLUE}║           KILLCHAIN CLI AVAILABLE                      ║${NC}"
+    echo -e "${BLUE}╚════════════════════════════════════════════════════════╝${NC}"
+    echo
+    echo "KillChain provides a CLI command 'killchain' that lets you:"
+    echo "   - Run KillChain commands from your terminal"
+    echo "   - Use Docker containers for isolated execution"
+    echo "   - Enable dangerous mode with --dangerous flag"
+    echo "   - Run commands like: killchain plan, killchain execute, etc."
+    echo
+    echo "Requirements:"
+    echo "   - Python 3 (for CLI script)"
+    echo "   - Docker (for containerized execution)"
+    echo
+    read -p "Install killchain CLI command? (y/N): " -n 1 -r
+    echo
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        # Determine installation location
+        local install_path=""
+        if [ -w "/usr/local/bin" ]; then
+            install_path="/usr/local/bin/killchain"
+        elif [ -w "$HOME/.local/bin" ]; then
+            install_path="$HOME/.local/bin/killchain"
+            mkdir -p "$HOME/.local/bin"
+        else
+            print_warning "Cannot find writable bin directory"
+            echo "You can manually copy bin/killchain to your PATH:"
+            echo "  sudo cp $cli_source /usr/local/bin/killchain"
+            echo "  sudo chmod +x /usr/local/bin/killchain"
+            return
+        fi
+
+        # Copy CLI script
+        cp "$cli_source" "$install_path"
+        chmod +x "$install_path"
+        print_success "Installed CLI to $install_path"
+
+        # Check if Docker files need to be accessible
+        if [ -d "$docker_dir" ]; then
+            print_success "Docker files found at $docker_dir"
+            echo "The CLI will use these files to build the Docker image."
+        fi
+
+        echo
+        echo "✓ CLI installation complete!"
+        echo
+        echo "You can now use commands like:"
+        echo "   killchain plan"
+        echo "   killchain execute --dangerous"
+        echo "   killchain resume --dangerous --parallel"
+        echo "   killchain status"
+        echo
+    else
+        print_success "Skipped CLI installation"
+        echo "You can install it later by running:"
+        echo "  sudo cp $cli_source /usr/local/bin/killchain"
+        echo "  sudo chmod +x /usr/local/bin/killchain"
+    fi
+}
+
 create_readme() {
     print_step "Creating README if needed..."
 
@@ -371,6 +446,7 @@ main() {
     install_agents
     install_templates
     install_dangerous_settings
+    install_cli
     create_readme
 
     echo
